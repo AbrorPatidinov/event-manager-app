@@ -112,13 +112,23 @@ class AuthController extends Controller
     */
     public function logout(Request $request)
     {
-        // Revoke the token that was used to authenticate the current request
-        $request->user()->currentAccessToken()->delete();
-
+        // Check if the user is authenticated and revoke the token
+        if ($request->user()) {
+            $request->user()->currentAccessToken()->delete();
+    
+            return response()->json([
+                'success' => true,
+                'errorMessage' => '',
+                'token' => '',
+            ], Response::HTTP_OK); // HTTP 200 OK
+        }
+    
+        // If the token is invalid, return an error response
         return response()->json([
-            'success' => true,
-            'errorMessage' => '',
+            'success' => false,
+            'errorMessage' => 'Invalid token or user not authenticated.',
             'token' => '',
-        ], Response::HTTP_OK);
+        ], Response::HTTP_UNAUTHORIZED); 
     }
+    
 }
