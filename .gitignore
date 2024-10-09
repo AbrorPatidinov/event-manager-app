@@ -19,4 +19,4 @@ yarn-error.log
 /.idea
 /.vscode
 /.zed
-git_token_access.txt
+git_access_token.txt
